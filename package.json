@@ -9,7 +9,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^14.14.10",
     "tslint": "^6.1.3",
     "typescript": "^4.1.2"
+  },
+  "repository": {
+    "url": "https://github.com/tobybessant/gulp-ng"
   }
 }
