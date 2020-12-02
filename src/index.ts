@@ -1,3 +1,5 @@
+import { NgBuild } from "./commands";
+
 // --- Assign args via constructor.
 const ngBuild: NgBuild = new NgBuild({ aot: true });
 
@@ -15,3 +17,10 @@ ngBuild
   .setArg("aot", false)
   .setArg("baseHref", "src/")
   .setArg("configuration", "development");
+
+// --- Get current command string.
+console.log(ngBuild.toString());
+// => `ng build --baseHref=src/ --configuration=development`
+
+// --- Run the command.
+ngBuild.run();
