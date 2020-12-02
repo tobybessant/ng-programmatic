@@ -1,2 +1,3 @@
 # gulp-ng
-Code configuration for running and configuring Angular CLI commands within gulp tasks.
+
+Run Angular CLI commands with a configuration-as-code approach. Designed for use with taskrunners such as Gulp.
