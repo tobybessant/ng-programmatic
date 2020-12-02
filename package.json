@@ -1,0 +1,15 @@
+{
+  "name": "gulp-ng",
+  "version": "1.0.0",
+  "description": "Code configuration for running and configuring Angular CLI commands within gulp tasks.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^4.1.2"
+  }
+}

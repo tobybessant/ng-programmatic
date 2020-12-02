@@ -1,0 +1,70 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "array-type": false,
+    "arrow-parens": false,
+    "component-class-suffix": true,
+    "component-selector": [true, "element", "app", "kebab-case"],
+    "contextual-lifecycle": true,
+    "deprecation": {
+      "severity": "warning"
+    },
+    "directive-class-suffix": true,
+    "directive-selector": [true, "attribute", "app", "camelCase"],
+    "eofline": true,
+    "import-blacklist": [true, "rxjs/Rx"],
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "max-line-length": [true, 140],
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-conflicting-lifecycle": true,
+    "no-consecutive-blank-lines": false,
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-empty": false,
+    "no-host-metadata-property": true,
+    "no-inferrable-types": false,
+    "no-input-rename": true,
+    "no-inputs-metadata-property": true,
+    "no-non-null-assertion": true,
+    "no-null-keyword": true,
+    "no-output-native": true,
+    "no-output-on-prefix": true,
+    "no-output-rename": true,
+    "no-outputs-metadata-property": true,
+    "no-redundant-jsdoc": true,
+    "no-shadowed-variable": true,
+    "no-switch-case-fall-through": true,
+    "no-unused-variable": true,
+    "no-var-requires": false,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [true, "double", "backtick"],
+    "semicolon": [true, "always"],
+    "template-banana-in-box": true,
+    "template-no-negated-async": true,
+    "trailing-comma": false,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "property-declaration",
+      "variable-declaration",
+      "variable-declaration-ignore-function",
+      "member-variable-declaration"
+    ],
+    "use-lifecycle-interface": true,
+    "use-pipe-transform-interface": true
+  }
+}
