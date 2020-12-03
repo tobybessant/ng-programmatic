@@ -7,9 +7,15 @@ Currently supports:
 
 - `ng build`
 
+# Install
+
+`npm i ng-programmatic`
+
 # Usage
 
 ```ts
+import { NgBuild } from "ng-programmatic";
+
 // --- Assign args via constructor.
 const ngBuild: NgBuild = new NgBuild({ aot: true });
 
