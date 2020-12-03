@@ -1,4 +1,4 @@
-# ng-programmatic
+# [ng-programmatic](https://www.npmjs.com/package/ng-programmatic)
 
 Programmatic interface for configuring and running Angular CLI commands. Primarily designed for use with taskrunners
 such as [Gulp](https://gulpjs.com/), but could easily be used anywhere.
@@ -41,5 +41,5 @@ console.log(ngBuild.toString());
 // => `ng build --baseHref=src/ --configuration=development`
 
 // --- Run the command.
-ngBuild.run().then(({ success, stdOut, stdErr }) => {});
+ngBuild.run().then((result) => {});
 ```
