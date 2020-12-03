@@ -1,6 +1,6 @@
 # ng-programmatic
 
-Configure & run Angular CLI commands with a fully-typed, programmatic interface. Primarily designed for use with taskrunners
+Programmatic interface for configuring and running Angular CLI commands. Primarily designed for use with taskrunners
 such as [Gulp](https://gulpjs.com/), but could easily be used anywhere.
 
 # Usage
