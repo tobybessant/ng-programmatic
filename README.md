@@ -1,4 +1,4 @@
-# gulp-ng
+# ng-programmatic
 
 Run Angular CLI commands with a configuration-as-code approach. Primarily designed for use with taskrunners
 such as [Gulp](https://gulpjs.com/), but could easily be used anywhere.
@@ -15,7 +15,7 @@ ngBuild.setArgs({
   configuration: "production",
 });
 
-// --- Assign args in bulk, with optional merge parameter.
+// --- Assign args in bulk, with optional merge parameter to keep any existing arguments set.
 ngBuild.setArgs({ aot: false }, true);
 
 // --- Assign args individually.
@@ -29,5 +29,5 @@ console.log(ngBuild.toString());
 // => `ng build --baseHref=src/ --configuration=development`
 
 // --- Run the command.
-ngBuild.run();
+ngBuild.run().then(({ success, stdOut, stdErr }) => {});
 ```
