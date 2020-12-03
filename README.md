@@ -3,6 +3,10 @@
 Programmatic interface for configuring and running Angular CLI commands. Primarily designed for use with taskrunners
 such as [Gulp](https://gulpjs.com/), but could easily be used anywhere.
 
+Currently supports:
+
+- `ng build`
+
 # Usage
 
 ```ts

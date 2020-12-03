@@ -1,6 +1,6 @@
 {
   "name": "ng-programmatic",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Programmatic interface for configuring and running Angular CLI commands.",
   "main": "dist/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "typescript": "^4.1.2"
   },
   "repository": {
-    "url": "https://github.com/tobybessant/gulp-ng"
+    "url": "https://github.com/tobybessant/ng-programmatic"
   },
   "types": "dist/index.d.ts"
 }
