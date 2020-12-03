@@ -1,12 +1,12 @@
 {
-  "name": "gulp-ng",
+  "name": "ng-programmatic",
   "version": "1.0.0",
-  "description": "Code configuration for running and configuring Angular CLI commands within gulp tasks.",
-  "main": "index.ts",
+  "description": "Programmatic interface for configuring and running Angular CLI commands.",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc"
   },
-  "author": "",
+  "author": "Toby Bessant",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^14.14.10",
@@ -15,5 +15,6 @@
   },
   "repository": {
     "url": "https://github.com/tobybessant/gulp-ng"
-  }
+  },
+  "types": "dist/index.d.ts"
 }

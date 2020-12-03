@@ -1,5 +1,10 @@
 export interface INgBuildArguments {
   /**
+   * A list of CommonJS packages that are allowed to be used without a build time warning.
+   */
+  allowedCommonJsDependencies: string[];
+
+  /**
    * Build using Ahead of Time compilation
    *
    * @cli_default `false`
@@ -162,7 +167,7 @@ export interface INgBuildArguments {
   /**
    * Enable and define the file watching poll time period in milliseconds.
    */
-  poll: never;
+  poll: number;
 
   /**
    * The full path for the polyfills file, relative to the current workspace.
@@ -173,13 +178,6 @@ export interface INgBuildArguments {
    * Do not use the real path when resolving modules. If unset then will default to true if NodeJS option --preserve-symlinks is set.
    */
   preserveSymlinks: boolean;
-
-  /**
-   * Shorthand for "--configuration=production". When true, sets the build configuration to the production target.
-   * By default, the production target is set up in the workspace configuration such that all builds make use of
-   * bundling, limited tree-shaking, and also limited dead code elimination.
-   */
-  prod: boolean;
 
   /**
    * Log progress to the console while building.

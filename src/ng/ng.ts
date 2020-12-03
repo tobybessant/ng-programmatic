@@ -1,4 +1,11 @@
 import { INgCommand } from "./ng.interface";
+import { exec } from "child_process";
+
+export interface INgRunResult {
+  success: boolean;
+  stdErr?: string;
+  stdOut?: string;
+}
 
 export class Ng<T> implements INgCommand<T> {
   protected action: string;
@@ -34,15 +41,37 @@ export class Ng<T> implements INgCommand<T> {
 
     for (const key in this.args) {
       if (this.args[key]) {
-        result += `--${key}=${this.args[key]} `;
+        result += this.argument(key);
       }
     }
 
     return result;
   }
 
-  public run(location?: string): void {
+  public run(location?: string): Promise<INgRunResult> {
     const ngCommand: string = this.toString();
-    console.log(ngCommand);
+    console.log(`gulp-ng running: \`${ngCommand}\``);
+
+    return new Promise((resolve, reject) => {
+      exec(ngCommand, { cwd: location }, (err, stdOut, stdErr) => {
+        if (err) {
+          throw err;
+        }
+
+        return resolve({ success: true, stdOut, stdErr });
+      });
+    });
+  }
+
+  private argument<U extends keyof T>(key: U): string {
+    if (this.args[key] instanceof Array) {
+      let result: string = `--${key} `;
+      ((this.args[key] as unknown) as Array<string>).forEach(
+        (arg: any) => (result += arg + " ")
+      );
+      return result;
+    }
+
+    return `--${key}=${this.args[key]} `;
   }
 }
