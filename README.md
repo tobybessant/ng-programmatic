@@ -9,7 +9,9 @@ Currently supports:
 
 # Install
 
-`npm i ng-programmatic`
+```bash
+$ npm i ng-programmatic
+```
 
 # Usage
 
