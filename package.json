@@ -1,13 +1,13 @@
 {
   "name": "ng-programmatic",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Programmatic interface for configuring and running Angular CLI commands.",
   "main": "dist/index.js",
   "scripts": {
     "prepare": "tsc"
   },
   "author": "Toby Bessant",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.14.10",
     "tslint": "^6.1.3",
