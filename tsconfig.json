@@ -8,5 +8,6 @@
     "declaration": true,
     "moduleResolution": "node",
     "types": ["@types/node", "@types/mocha"]
-  }
+  },
+  "include": ["src/**/*.ts"]
 }

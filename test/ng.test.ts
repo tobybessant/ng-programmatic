@@ -3,8 +3,6 @@ import { expect } from "chai";
 import { Ng, NgBuild, NgLint } from "../src";
 
 suite("Ng", () => {
-  beforeEach(() => {});
-
   suite("Build", () => {
     it("returns an instance of NgBuild", () => {
       var ngBuild = Ng.Build();
