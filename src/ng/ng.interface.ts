@@ -4,10 +4,15 @@ export interface INgCommand<T> {
   /**
    * Set args in bulk
    * @param args Arguments to set.
-   * @param merge Merge any existing arguments and the new together if
-   * `true`. Will re-assign / clear existing arguments if `false` / `undefined`.
    */
-  setArgs(args: Partial<T>, merge: boolean): Ng<T>;
+  setArgs(args: Partial<T>): Ng<T>;
+
+  /**
+   * Set args in bulk
+   * @param args Arguments to set.
+   * @param merge Merge any existing arguments and the new together.
+   */
+  setArgs(args: Partial<T>, merge: true): Ng<T>;
 
   /**
    * Set single argument.

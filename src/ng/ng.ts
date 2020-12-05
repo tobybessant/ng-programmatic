@@ -19,7 +19,10 @@ export class Ng<T> implements INgCommand<T> {
     }
   }
 
-  public setArgs(args: Partial<T>, merge: boolean = false): Ng<T> {
+  public setArgs(args: Partial<T>): Ng<T>;
+  public setArgs(args: Partial<T>, merge: true): Ng<T>;
+
+  public setArgs(args: Partial<T>, merge?: true): Ng<T> {
     if (merge) {
       this.args = { ...this.args, ...args };
     } else {
@@ -55,7 +58,7 @@ export class Ng<T> implements INgCommand<T> {
     return new Promise((resolve, reject) => {
       exec(ngCommand, { cwd: location }, (err, stdOut, stdErr) => {
         if (err) {
-          throw err;
+          reject(err);
         }
 
         return resolve({ success: true, stdOut, stdErr });

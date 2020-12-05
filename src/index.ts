@@ -1,3 +1,5 @@
+import { NgBuild } from "./commands";
+
 export * from "./commands";
 
 export { INgBuildArguments } from "./commands/build/arguments.interface";
