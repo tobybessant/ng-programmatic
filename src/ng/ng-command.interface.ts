@@ -1,3 +1,4 @@
+import { INgRunResult } from "../utils/runner/runner.interface";
 import { NgCommand } from "./ng-command";
 
 export interface INgCommand<T> {
@@ -33,5 +34,5 @@ export interface INgCommand<T> {
    * Run the current command config.
    * @param location Optional location for the `cwd`, where the command will run.
    */
-  run(location?: string): void;
+  run(location?: string): Promise<INgRunResult>;
 }

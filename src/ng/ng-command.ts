@@ -1,19 +1,16 @@
 import { INgCommand } from "./ng-command.interface";
-import { exec } from "child_process";
-
-export interface INgRunResult {
-  success: boolean;
-  stdErr?: string;
-  stdOut?: string;
-}
+import { INgRunResult } from "..";
+import { INgRunner } from "../utils/runner/runner.interface";
 
 export class NgCommand<T> implements INgCommand<T> {
-  protected action: string;
   private readonly ng: string = "ng";
   private args: Partial<T> = {};
 
-  constructor(baseCommand: string, initialArgs?: Partial<T>) {
-    this.action = baseCommand;
+  constructor(
+    private readonly commandRunner: INgRunner,
+    private readonly baseCommand: string,
+    initialArgs?: Partial<T>
+  ) {
     if (initialArgs) {
       this.args = initialArgs;
     }
@@ -40,29 +37,21 @@ export class NgCommand<T> implements INgCommand<T> {
   }
 
   public toString(): string {
-    let result: string = `${this.ng} ${this.action} `;
+    let result: string = `${this.ng} ${this.baseCommand} `;
     for (const key in this.args) {
       if (this.args[key] !== undefined) {
         result += this.argument(key);
       }
     }
 
-    return result;
+    return result.trim();
   }
 
-  public run(location?: string): Promise<INgRunResult> {
+  public async run(location?: string): Promise<INgRunResult> {
     const ngCommand: string = this.toString();
     console.log(`gulp-ng running: \`${ngCommand}\``);
 
-    return new Promise((resolve, reject) => {
-      exec(ngCommand, { cwd: location }, (err, stdOut, stdErr) => {
-        if (err) {
-          reject(err);
-        }
-
-        return resolve({ success: true, stdOut, stdErr });
-      });
-    });
+    return this.commandRunner.run(ngCommand, location);
   }
 
   private argument<U extends keyof T>(key: U): string {

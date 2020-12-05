@@ -1,8 +1,10 @@
 import { suite, it } from "mocha";
 import { expect } from "chai";
-import { Ng, NgBuild, NgLint } from "../src";
+import { IMock, It, Mock, Times } from "typemoq";
 import { INgCommand } from "../src/ng/ng-command.interface";
 import { NgCommand } from "../src/ng/ng-command";
+import { INgRunResult, INgRunner } from "../src/utils/runner/runner.interface";
+import { Ng } from "../src";
 
 interface ITestArgs {
   argString: string;
@@ -14,20 +16,23 @@ interface ITestArgs {
 suite("NgCommand", () => {
   const EMPTY_OBJECT: object = {};
   const NG: string = "ng";
-
   const BUILD: string = "build";
   const LINT: string = "lint";
+
+  let runnerMock: IMock<INgRunner>;
+
   let ngBasecommand: INgCommand<ITestArgs>;
 
   beforeEach(() => {
-    ngBasecommand = new NgCommand<ITestArgs>("action");
+    runnerMock = Mock.ofType<INgRunner>();
+    ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, "action");
   });
 
   suite("constructor", () => {
     it("sets the command action", () => {
       [BUILD, LINT].forEach((a) => {
-        ngBasecommand = new NgCommand<ITestArgs>(a);
-        const result: string = (ngBasecommand as any).action;
+        ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, a);
+        const result: string = (ngBasecommand as any).baseCommand;
 
         expect(result).to.be.eq(a);
       });
@@ -35,7 +40,7 @@ suite("NgCommand", () => {
 
     it("sets the initial arguments", () => {
       const args: Partial<ITestArgs> = { argNumber: 3, argBoolean: false };
-      ngBasecommand = new NgCommand<ITestArgs>(BUILD, args);
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
 
       const result: ITestArgs = (ngBasecommand as any).args;
 
@@ -43,7 +48,7 @@ suite("NgCommand", () => {
     });
 
     it("has no initial arguments, if none are provided", () => {
-      ngBasecommand = new NgCommand<ITestArgs>(BUILD);
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD);
 
       const result: ITestArgs = (ngBasecommand as any).args;
 
@@ -173,7 +178,7 @@ suite("NgCommand", () => {
     });
 
     it("should have the `action` parameter immediately after the root `ng` command", () => {
-      ngBasecommand = new NgCommand<ITestArgs>(BUILD);
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD);
 
       const command: string = ngBasecommand.toString();
 
@@ -181,11 +186,85 @@ suite("NgCommand", () => {
     });
 
     it("should prepend each command argument with `--`", () => {
-      ngBasecommand = new NgCommand<ITestArgs>(BUILD);
-      ngBasecommand.setArgs({ argBoolean: false });
+      const args: ITestArgs = {
+        argBoolean: false,
+        argNumber: 0,
+        argString: "str",
+        argStringArray: ["one", "two"],
+      };
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
 
       const command: string = ngBasecommand.toString();
-      expect(command).to.satisfy((c: string) => c.includes("--argBoolean"));
+
+      // tslint:disable-next-line: forin
+      for (const key in args) {
+        expect(command).to.satisfy((c: string) => c.includes(`--${key}`));
+      }
+    });
+
+    it("argument values should follow the key and a `=`", () => {
+      const args: Partial<ITestArgs> = {
+        argBoolean: false,
+        argNumber: 0,
+        argString: "str",
+      };
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
+
+      const command: string = ngBasecommand.toString();
+
+      const indexable: any = args as any;
+      // tslint:disable-next-line: forin
+      for (const key in args) {
+        expect(command).to.satisfy((c: string) =>
+          c.includes(`--${key}=${indexable[key]}`)
+        );
+      }
+    });
+
+    it("array argument values should follow the key in sequence", () => {
+      const args: Partial<ITestArgs> = {
+        argStringArray: ["value1", "value2"],
+      };
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
+
+      const command: string = ngBasecommand.toString();
+
+      // tslint:disable-next-line: no-non-null-assertion
+      const values: string = args.argStringArray!.join(" ");
+      expect(command).to.satisfy((c: string) =>
+        c.includes(`--argStringArray ${values}`)
+      );
+    });
+  });
+
+  suite("run", () => {
+    it("should pass the built command into the runner", () => {
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, "action", {
+        argBoolean: true,
+      });
+
+      ngBasecommand.run();
+
+      runnerMock.verify(
+        (r) => r.run("ng action --argBoolean=true", It.isAny()),
+        Times.once()
+      );
+    });
+
+    it("should return the command result", async () => {
+      const runResult: INgRunResult = {
+        success: true,
+        stdErr: "",
+        stdOut: "Done!",
+      };
+
+      runnerMock
+        .setup((r) => r.run(It.isAnyString(), It.isAny()))
+        .returns(async () => runResult);
+
+      const result: INgRunResult = await ngBasecommand.run("ng build");
+
+      expect(result).to.eql(runResult);
     });
   });
 });
