@@ -1,11 +1,12 @@
 # [ng-programmatic](https://www.npmjs.com/package/ng-programmatic)
 
-Programmatic interface for configuring and running Angular CLI commands. Primarily designed for use with taskrunners
+Fully typed programmatic interface for configuring and running Angular CLI commands. Primarily designed for use with taskrunners
 such as [Gulp](https://gulpjs.com/), but could easily be used anywhere.
 
 Currently supports:
 
 - `ng build`
+- `ng lint`
 
 # Install
 
@@ -16,12 +17,12 @@ $ npm i ng-programmatic
 # Usage
 
 ```ts
-import { NgBuild } from "ng-programmatic";
+import { Ng } from "ng-programmatic";
 
 // --- Assign args via constructor.
-const ngBuild: NgBuild = new NgBuild({ aot: true });
+const ngBuild: NgBuild = Ng.Build({ aot: true });
 
-// --- Assign args in bulk, will re-assign by default.
+// --- Assign args in bulk, will clear any existing args by default.
 ngBuild.setArgs({
   baseHref: "./",
   configuration: "production",
@@ -38,7 +39,7 @@ ngBuild
 
 // --- Get current command string.
 console.log(ngBuild.toString());
-// => `ng build --baseHref=src/ --configuration=development`
+// => `ng build --aot=false --baseHref=src/ --configuration=development`
 
 // --- Run the command.
 ngBuild.run().then((result) => {});

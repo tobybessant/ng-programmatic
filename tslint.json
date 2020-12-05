@@ -65,6 +65,7 @@
       "member-variable-declaration"
     ],
     "use-lifecycle-interface": true,
-    "use-pipe-transform-interface": true
+    "use-pipe-transform-interface": true,
+    "unified-signatures": false
   }
 }

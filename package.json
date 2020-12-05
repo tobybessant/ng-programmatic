@@ -1,6 +1,6 @@
 {
   "name": "ng-programmatic",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Programmatic interface for configuring and running Angular CLI commands.",
   "main": "dist/index.js",
   "scripts": {

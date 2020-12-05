@@ -122,7 +122,7 @@ export interface INgBuildArguments {
    *
    * @deprecated 'SystemJsNgModuleLoader' is deprecated, and this is part of its usage. Use 'import()' syntax instead.
    */
-  lazyModules: never;
+  lazyModules: string[];
 
   localize: boolean;
 
