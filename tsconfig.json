@@ -5,6 +5,8 @@
     "strict": true,
     "outDir": "dist",
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "moduleResolution": "node",
+    "types": ["@types/node", "@types/mocha"]
   }
 }

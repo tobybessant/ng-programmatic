@@ -41,9 +41,8 @@ export class NgCommand<T> implements INgCommand<T> {
 
   public toString(): string {
     let result: string = `${this.ng} ${this.action} `;
-
     for (const key in this.args) {
-      if (this.args[key]) {
+      if (this.args[key] !== undefined) {
         result += this.argument(key);
       }
     }
