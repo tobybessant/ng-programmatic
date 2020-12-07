@@ -25,7 +25,7 @@ const ngBuild: NgBuild = Ng.Build({ aot: true });
 // --- Assign args in bulk, will clear any existing args by default.
 ngBuild.setArgs({
   baseHref: "./",
-  configuration: "production",
+  configuration: "production"
 });
 
 // --- Assign args in bulk, with optional merge parameter to keep any existing arguments set.

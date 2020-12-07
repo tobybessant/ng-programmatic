@@ -4,9 +4,10 @@
   "description": "Programmatic interface for configuring and running Angular CLI commands.",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "prepare": "tsc",
-    "test": "mocha -r ts-node/register 'test/**/*.ts'",
-    "coverage": "nyc --x 'src/**/index.ts' --x 'test/**/*.ts' --reporter=text mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "mocha",
+    "coverage": "nyc mocha"
   },
   "author": "Toby Bessant",
   "license": "MIT",
@@ -16,6 +17,7 @@
     "@types/node": "^14.14.10",
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
+    "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.1.0",
     "ts-node": "^9.1.0",
     "tslint": "^6.1.3",

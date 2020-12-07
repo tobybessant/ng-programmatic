@@ -23,7 +23,7 @@ suite("NgCommand", () => {
 
   let ngBasecommand: INgCommand<ITestArgs>;
 
-  beforeEach(() => {
+  setup(() => {
     runnerMock = Mock.ofType<INgRunner>();
     ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, "action");
   });
@@ -71,14 +71,14 @@ suite("NgCommand", () => {
         argNumber: 23,
         argBoolean: true,
         argString: "str",
-        argStringArray: ["value1"],
+        argStringArray: ["value1"]
       };
 
       ngBasecommand.setArgs(initialArgs);
 
       const newArgs: Partial<ITestArgs> = {
         argString: "different",
-        argBoolean: true,
+        argBoolean: true
       };
 
       ngBasecommand.setArgs(newArgs);
@@ -91,19 +91,19 @@ suite("NgCommand", () => {
     it("should keep any existing command arguments if merge is set to true", () => {
       const initialArgs: Partial<ITestArgs> = {
         argNumber: 2,
-        argBoolean: false,
+        argBoolean: false
       };
       ngBasecommand.setArgs(initialArgs);
 
       const newArgs: Partial<ITestArgs> = {
-        argString: "different",
+        argString: "different"
       };
       ngBasecommand.setArgs(newArgs, true);
 
       const expected: Partial<ITestArgs> = {
         argNumber: 2,
         argBoolean: false,
-        argString: "different",
+        argString: "different"
       };
 
       const result: ITestArgs = (ngBasecommand as any).args;
@@ -115,19 +115,19 @@ suite("NgCommand", () => {
       const initialArgs: Partial<ITestArgs> = {
         argNumber: 2,
         argBoolean: false,
-        argString: "different",
+        argString: "different"
       };
       ngBasecommand.setArgs(initialArgs);
 
       const newArgs: Partial<ITestArgs> = {
-        argNumber: 100,
+        argNumber: 100
       };
       ngBasecommand.setArgs(newArgs, true);
 
       const expected: Partial<ITestArgs> = {
         argNumber: 100,
         argBoolean: false,
-        argString: "different",
+        argString: "different"
       };
 
       const result: ITestArgs = (ngBasecommand as any).args;
@@ -156,7 +156,7 @@ suite("NgCommand", () => {
       expect(result).to.be.eql({
         argBoolean: false,
         argNumber: 110,
-        argStringArray: ["value1", "value2"],
+        argStringArray: ["value1", "value2"]
       });
     });
 
@@ -190,7 +190,7 @@ suite("NgCommand", () => {
         argBoolean: false,
         argNumber: 0,
         argString: "str",
-        argStringArray: ["one", "two"],
+        argStringArray: ["one", "two"]
       };
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
 
@@ -206,7 +206,7 @@ suite("NgCommand", () => {
       const args: Partial<ITestArgs> = {
         argBoolean: false,
         argNumber: 0,
-        argString: "str",
+        argString: "str"
       };
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
 
@@ -223,7 +223,7 @@ suite("NgCommand", () => {
 
     it("array argument values should follow the key in sequence", () => {
       const args: Partial<ITestArgs> = {
-        argStringArray: ["value1", "value2"],
+        argStringArray: ["value1", "value2"]
       };
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, BUILD, args);
 
@@ -240,7 +240,7 @@ suite("NgCommand", () => {
   suite("run", () => {
     it("should pass the built command into the runner", () => {
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, "action", {
-        argBoolean: true,
+        argBoolean: true
       });
 
       ngBasecommand.run();
@@ -255,7 +255,7 @@ suite("NgCommand", () => {
       const runResult: INgRunResult = {
         success: true,
         stdErr: "",
-        stdOut: "Done!",
+        stdOut: "Done!"
       };
 
       runnerMock

@@ -5,7 +5,7 @@ import { Ng, NgBuild, NgLint } from "../src";
 suite("Ng", () => {
   suite("Build", () => {
     it("returns an instance of NgBuild", () => {
-      var ngBuild = Ng.Build();
+      const ngBuild = Ng.Build();
 
       expect(ngBuild).instanceof(NgBuild);
     });
@@ -13,7 +13,7 @@ suite("Ng", () => {
 
   suite("Lint", () => {
     it("returns an instance of NgLint", () => {
-      var ngLint = Ng.Lint();
+      const ngLint = Ng.Lint();
 
       expect(ngLint).instanceof(NgLint);
     });

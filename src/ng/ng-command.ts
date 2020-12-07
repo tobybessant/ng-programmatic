@@ -49,7 +49,7 @@ export class NgCommand<T> implements INgCommand<T> {
 
   public async run(location?: string): Promise<INgRunResult> {
     const ngCommand: string = this.toString();
-    console.log(`gulp-ng running: \`${ngCommand}\``);
+    console.log(`ng-programmatic running: \`${ngCommand}\``);
 
     return this.commandRunner.run(ngCommand, location);
   }
