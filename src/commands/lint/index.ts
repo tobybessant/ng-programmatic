@@ -1,5 +1,5 @@
 import { NgCommand } from "../../ng/ng-command";
-import { INgRunner } from "../../utils/runner/runner.interface";
+import { INgRunner } from "../../utils/runner/ng-runner.interface";
 import { INgLintArguments } from "./arguments.interface";
 
 export class NgLint extends NgCommand<INgLintArguments> {

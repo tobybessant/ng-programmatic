@@ -1,8 +1,4 @@
-export interface INgRunResult {
-  success: boolean;
-  stdErr?: string;
-  stdOut?: string;
-}
+import { INgRunResult } from "./ng-run-result.interface";
 
 export interface INgRunner {
   run(command: string): Promise<INgRunResult>;

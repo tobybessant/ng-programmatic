@@ -3,8 +3,8 @@ import { expect } from "chai";
 import { IMock, It, Mock, Times } from "typemoq";
 import { INgCommand } from "../src/ng/ng-command.interface";
 import { NgCommand } from "../src/ng/ng-command";
-import { INgRunResult, INgRunner } from "../src/utils/runner/runner.interface";
-import { Ng } from "../src";
+import { INgRunner } from "../src/utils/runner/ng-runner.interface";
+import { INgRunResult } from "../src";
 
 interface ITestArgs {
   argString: string;
@@ -253,9 +253,7 @@ suite("NgCommand", () => {
 
     it("should return the command result", async () => {
       const runResult: INgRunResult = {
-        success: true,
-        stdErr: "",
-        stdOut: "Done!"
+        success: true
       };
 
       runnerMock

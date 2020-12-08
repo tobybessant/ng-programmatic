@@ -1,5 +1,4 @@
-import { INgRunResult } from "../utils/runner/runner.interface";
-import { NgCommand } from "./ng-command";
+import { INgRunResult } from "../utils/runner/ng-run-result.interface";
 
 export interface INgCommand<T> {
   /**

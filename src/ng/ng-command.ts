@@ -1,6 +1,6 @@
 import { INgCommand } from "./ng-command.interface";
 import { INgRunResult } from "..";
-import { INgRunner } from "../utils/runner/runner.interface";
+import { INgRunner } from "../utils/runner/ng-runner.interface";
 
 export class NgCommand<T> implements INgCommand<T> {
   private readonly ng: string = "ng";
