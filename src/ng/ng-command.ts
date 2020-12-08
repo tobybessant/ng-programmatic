@@ -7,7 +7,7 @@ export class NgCommand<T> implements INgCommand<T> {
   private args: Partial<T> = {};
 
   constructor(
-    private readonly commandRunner: INgRunner,
+    private readonly commandRunner: INgRunner<T>,
     private readonly baseCommand: string,
     initialArgs?: Partial<T>
   ) {
@@ -51,7 +51,7 @@ export class NgCommand<T> implements INgCommand<T> {
     const ngCommand: string = this.toString();
     console.log(`ng-programmatic running: \`${ngCommand}\``);
 
-    return this.commandRunner.run(ngCommand, location);
+    return this.commandRunner.run(this.baseCommand, this.args, location);
   }
 
   private argument<U extends keyof T>(key: U): string {
