@@ -23,7 +23,7 @@ $ npm i ng-programmatic
 # Usage
 
 ```ts
-import { Ng } from "ng-programmatic";
+import { Ng, NgBuild } from "ng-programmatic";
 
 // --- Assign args via constructor.
 const ngBuild: NgBuild = Ng.Build({ aot: true });
