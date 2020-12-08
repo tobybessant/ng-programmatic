@@ -1,8 +1,20 @@
 {
   "name": "ng-programmatic",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Programmatic interface for configuring and running Angular CLI commands.",
+  "keywords": [
+    "angular-cli",
+    "programmatic",
+    "fluent",
+    "taskrunner",
+    "gulp"
+  ],
   "main": "dist/index.js",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "prepare": "tsc",
