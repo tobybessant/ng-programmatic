@@ -19,12 +19,12 @@ suite("NgCommand", () => {
   const BUILD: string = "build";
   const LINT: string = "lint";
 
-  let runnerMock: IMock<INgRunner>;
+  let runnerMock: IMock<INgRunner<ITestArgs>>;
 
   let ngBasecommand: INgCommand<ITestArgs>;
 
   setup(() => {
-    runnerMock = Mock.ofType<INgRunner>();
+    runnerMock = Mock.ofType<INgRunner<ITestArgs>>();
     ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, "action");
   });
 
@@ -238,31 +238,55 @@ suite("NgCommand", () => {
   });
 
   suite("run", () => {
-    it("should pass the built command into the runner", () => {
-      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, "action", {
-        argBoolean: true
-      });
+    it("should pass the command details into the runner", () => {
+      const action: string = "build";
+      const args: Partial<ITestArgs> = { argBoolean: true };
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
 
       ngBasecommand.run();
 
+      runnerMock.verify((r) => r.run(action, args, It.isAny()), Times.once());
+    });
+
+    it("should pass the location into the runner if provided", () => {
+      const action: string = "build";
+      const args: Partial<ITestArgs> = { argBoolean: true };
+      const location: string = "./";
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
+
+      ngBasecommand.run(location);
+
       runnerMock.verify(
-        (r) => r.run("ng action --argBoolean=true", It.isAny()),
+        (r) => r.run(It.isAny(), It.isAny(), location),
         Times.once()
       );
     });
 
-    it("should return the command result", async () => {
+    it("should pass the run result into the .then callback handler", async () => {
       const runResult: INgRunResult = {
         success: true
       };
 
       runnerMock
-        .setup((r) => r.run(It.isAnyString(), It.isAny()))
+        .setup((r) => r.run(It.isAny(), It.isAny()))
         .returns(async () => runResult);
 
-      const result: INgRunResult = await ngBasecommand.run("ng build");
+      ngBasecommand.run().then((result) => expect(result).to.eql(runResult));
+    });
 
-      expect(result).to.eql(runResult);
+    it("should catch an errorneous run result into the .catch callback handler", async () => {
+      const oopsie: Error = new Error("Whoops!");
+
+      runnerMock
+        .setup((r) => r.run(It.isAny(), It.isAny()))
+        .returns(async () => {
+          throw oopsie;
+        });
+
+      ngBasecommand.run().catch((err) => {
+        expect(err).to.not.be.undefined;
+        expect(err.message).to.eq(oopsie.message);
+      });
     });
   });
 });
