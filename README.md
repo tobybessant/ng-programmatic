@@ -11,6 +11,8 @@ Currently supports:
 
 - `ng build`
 - `ng lint`
+- `ng test`
+- `ng serve`
 
 # Install
 
