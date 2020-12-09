@@ -21,7 +21,8 @@ export class CommandRunner<T> implements ICommandRunner<T> {
         "ng",
         [ngCommand, ...this.formatArgs(args)],
         {
-          stdio: ["pipe", "pipe"],
+          stdio: "inherit",
+          shell: true,
           cwd: location
         }
       );
