@@ -1,14 +1,18 @@
 import { CommandRunner } from "../utils/runner/ng-runner";
-import { INgBuildArguments, INgLintArguments } from "..";
-import { NgBuild, NgLint, NgTest } from "../commands";
-import { NgServe } from "../commands/serve";
+import { NgBuild, NgLint, NgTest, NgServe } from "../commands";
+import {
+  INgBuildArguments,
+  INgLintArguments,
+  INgServeArguments,
+  INgTestArguments
+} from "..";
 
 export class Ng {
   public static Build(args?: Partial<INgBuildArguments>): NgBuild {
     return new NgBuild(new CommandRunner(), args);
   }
 
-  public static Serve(args?: Partial<INgLintArguments>): NgServe {
+  public static Serve(args?: Partial<INgServeArguments>): NgServe {
     return new NgServe(new CommandRunner(), args);
   }
 
@@ -16,7 +20,7 @@ export class Ng {
     return new NgLint(new CommandRunner(), args);
   }
 
-  public static Test(args?: Partial<INgLintArguments>): NgTest {
+  public static Test(args?: Partial<INgTestArguments>): NgTest {
     return new NgTest(new CommandRunner(), args);
   }
 }
