@@ -1,9 +1,12 @@
 import { INgCommand } from "./ng-command.interface";
 import { INgRunResult } from "..";
 import { INgRunner } from "../utils/runner/ng-runner.interface";
+import { INgRunOptions } from "./ng-run-options.interface";
 
 export class NgCommand<T> implements INgCommand<T> {
-  private readonly ng: string = "ng";
+  private readonly LOCAL_PREFIX: string = "npm run-script";
+  private readonly NG: string = "ng";
+
   private args: Partial<T> = {};
 
   constructor(
@@ -37,7 +40,7 @@ export class NgCommand<T> implements INgCommand<T> {
   }
 
   public toString(): string {
-    let result: string = `${this.ng} ${this.baseCommand} `;
+    let result: string = `${this.NG} ${this.baseCommand} `;
     for (const key in this.args) {
       if (this.args[key] !== undefined) {
         result += this.argument(key);
@@ -47,11 +50,15 @@ export class NgCommand<T> implements INgCommand<T> {
     return result.trim();
   }
 
-  public async run(location?: string): Promise<INgRunResult> {
-    const ngCommand: string = this.toString();
-    console.log(`ng-programmatic running: \`${ngCommand}\``);
+  public async run(options?: INgRunOptions): Promise<INgRunResult> {
+    console.log(`ng-programmatic running (local): \`${this.toString()}\``);
 
-    return this.commandRunner.run(this.baseCommand, this.args, location);
+    return this.commandRunner.run(
+      options?.useLocalCli ? `${this.LOCAL_PREFIX} ${this.NG}` : this.NG,
+      this.baseCommand,
+      this.args,
+      options?.cwd
+    );
   }
 
   private argument<U extends keyof T>(key: U): string {

@@ -245,7 +245,38 @@ suite("NgCommand", () => {
 
       ngBasecommand.run();
 
-      runnerMock.verify((r) => r.run(action, args, It.isAny()), Times.once());
+      runnerMock.verify(
+        (r) => r.run(It.isAny(), action, args, It.isAny()),
+        Times.once()
+      );
+    });
+
+    it("should use the global Angular CLI by default", () => {
+      const action: string = "build";
+      const args: Partial<ITestArgs> = { argBoolean: true };
+      const location: string = "./";
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
+
+      ngBasecommand.run();
+
+      runnerMock.verify(
+        (r) => r.run("ng", It.isAny(), It.isAny(), It.isAny()),
+        Times.once()
+      );
+    });
+
+    it("should use the local Angular CLI if specified", () => {
+      const action: string = "build";
+      const args: Partial<ITestArgs> = { argBoolean: true };
+      const location: string = "./";
+      ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
+
+      ngBasecommand.run({ useLocalCli: true });
+
+      runnerMock.verify(
+        (r) => r.run("npm run-script ng", It.isAny(), It.isAny(), It.isAny()),
+        Times.once()
+      );
     });
 
     it("should pass the location into the runner if provided", () => {
@@ -254,10 +285,10 @@ suite("NgCommand", () => {
       const location: string = "./";
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
 
-      ngBasecommand.run(location);
+      ngBasecommand.run({ cwd: location });
 
       runnerMock.verify(
-        (r) => r.run(It.isAny(), It.isAny(), location),
+        (r) => r.run(It.isAny(), It.isAny(), It.isAny(), location),
         Times.once()
       );
     });
@@ -268,7 +299,7 @@ suite("NgCommand", () => {
       };
 
       runnerMock
-        .setup((r) => r.run(It.isAny(), It.isAny()))
+        .setup((r) => r.run(It.isAny(), It.isAny(), It.isAny()))
         .returns(async () => runResult);
 
       ngBasecommand.run().then((result) => expect(result).to.eql(runResult));
@@ -278,7 +309,7 @@ suite("NgCommand", () => {
       const oopsie: Error = new Error("Whoops!");
 
       runnerMock
-        .setup((r) => r.run(It.isAny(), It.isAny()))
+        .setup((r) => r.run(It.isAny(), It.isAny(), It.isAny()))
         .returns(async () => {
           throw oopsie;
         });

@@ -4,21 +4,27 @@ import { INgRunner as ICommandRunner } from "./ng-runner.interface";
 import { INgRunResult } from "./ng-run-result.interface";
 
 export class CommandRunner<T> implements ICommandRunner<T> {
-  public run<T>(ngCommand: string, args: Partial<T>): Promise<INgRunResult>;
   public run(
+    baseCommand: string,
+    ngCommand: string,
+    args: Partial<T>
+  ): Promise<INgRunResult>;
+  public run(
+    baseCommand: string,
     ngCommand: string,
     args: Partial<T>,
     location?: string
   ): Promise<INgRunResult>;
 
-  public run<T>(
+  public run(
+    baseCommand: string,
     ngCommand: string,
     args: Partial<T>,
     location?: any
   ): Promise<INgRunResult | Error> {
     return new Promise((resolve, reject) => {
       const ngProcess: ChildProcess = spawn(
-        "ng",
+        baseCommand,
         [ngCommand, ...this.formatArgs(args)],
         {
           stdio: "inherit",
@@ -27,11 +33,11 @@ export class CommandRunner<T> implements ICommandRunner<T> {
         }
       );
 
-      ngProcess.stdout?.on("data", function (data) {
+      ngProcess.stdout?.on("data", (data) => {
         console.log(data.toString());
       });
 
-      ngProcess.stderr?.on("data", function (data) {
+      ngProcess.stderr?.on("data", (data) => {
         console.log(data.toString());
       });
 
