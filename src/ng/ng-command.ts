@@ -2,11 +2,9 @@ import { INgCommand } from "./ng-command.interface";
 import { INgRunResult } from "..";
 import { INgRunner } from "../utils/runner/ng-runner.interface";
 import { INgRunOptions } from "./ng-run-options.interface";
-
 export class NgCommand<T> implements INgCommand<T> {
-  private readonly LOCAL_PREFIX: string = "npm run-script";
-  private readonly NG: string = "ng";
-
+  private readonly NPM_PREFIX: string = `npm run-script ng ${this.baseCommand} -- `;
+  private readonly NG_PREFIX: string = `ng ${this.baseCommand} `;
   private args: Partial<T> = {};
 
   constructor(
@@ -40,28 +38,35 @@ export class NgCommand<T> implements INgCommand<T> {
   }
 
   public toString(): string {
-    let result: string = `${this.NG} ${this.baseCommand} `;
-    for (const key in this.args) {
-      if (this.args[key] !== undefined) {
-        result += this.argument(key);
-      }
-    }
-
-    return result.trim();
+    return `${this.NG_PREFIX} ${this.getFormattedArguments()}`;
   }
 
   public async run(options?: INgRunOptions): Promise<INgRunResult> {
+    const prefix: string = options?.useLocalCli
+      ? this.NPM_PREFIX
+      : this.NG_PREFIX;
+
     console.log(`ng-programmatic running (local): \`${this.toString()}\``);
 
     return this.commandRunner.run(
-      options?.useLocalCli ? `${this.LOCAL_PREFIX} ${this.NG}` : this.NG,
-      this.baseCommand,
-      this.args,
+      prefix + this.getFormattedArguments(),
       options?.cwd
     );
   }
 
-  private argument<U extends keyof T>(key: U): string {
+  private getFormattedArguments(): string {
+    let result: string = "";
+
+    for (const key in this.args) {
+      if (this.args[key] !== undefined) {
+        result += this.formatArgument(key);
+      }
+    }
+
+    return result;
+  }
+
+  private formatArgument<U extends keyof T>(key: U): string {
     if (this.args[key] instanceof Array) {
       let result: string = `--${key} `;
       ((this.args[key] as unknown) as Array<string>).forEach(

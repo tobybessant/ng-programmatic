@@ -7,7 +7,16 @@ export interface INgRunOptions {
 
   /**
    * Use the locally installed Angular CLI (in `node_modules`) instead of the one
-   * installed globally.
+   * installed globally. To use this, you must add the following script to your
+   * `package.json`:
+   *
+   * ```
+   * // ...
+   * "scripts": {
+   *   "ng": "ng"
+   * }
+   * // ...
+   * ```
    */
   useLocalCli?: boolean;
 }

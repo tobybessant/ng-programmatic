@@ -238,29 +238,29 @@ suite("NgCommand", () => {
   });
 
   suite("run", () => {
-    it("should pass the command details into the runner", () => {
+    it("should call the runner once", () => {
       const action: string = "build";
       const args: Partial<ITestArgs> = { argBoolean: true };
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
 
       ngBasecommand.run();
 
-      runnerMock.verify(
-        (r) => r.run(It.isAny(), action, args, It.isAny()),
-        Times.once()
-      );
+      runnerMock.verify((r) => r.run(It.isAny(), It.isAny()), Times.once());
     });
 
     it("should use the global Angular CLI by default", () => {
       const action: string = "build";
       const args: Partial<ITestArgs> = { argBoolean: true };
-      const location: string = "./";
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
 
       ngBasecommand.run();
 
       runnerMock.verify(
-        (r) => r.run("ng", It.isAny(), It.isAny(), It.isAny()),
+        (r) =>
+          r.run(
+            It.is((cmd) => cmd.startsWith("ng " + action)),
+            It.isAny()
+          ),
         Times.once()
       );
     });
@@ -268,13 +268,16 @@ suite("NgCommand", () => {
     it("should use the local Angular CLI if specified", () => {
       const action: string = "build";
       const args: Partial<ITestArgs> = { argBoolean: true };
-      const location: string = "./";
       ngBasecommand = new NgCommand<ITestArgs>(runnerMock.object, action, args);
 
       ngBasecommand.run({ useLocalCli: true });
 
       runnerMock.verify(
-        (r) => r.run("npm run-script ng", It.isAny(), It.isAny(), It.isAny()),
+        (r) =>
+          r.run(
+            It.is((cmd) => cmd.startsWith("npm run-script ng " + action)),
+            It.isAny()
+          ),
         Times.once()
       );
     });
@@ -287,10 +290,7 @@ suite("NgCommand", () => {
 
       ngBasecommand.run({ cwd: location });
 
-      runnerMock.verify(
-        (r) => r.run(It.isAny(), It.isAny(), It.isAny(), location),
-        Times.once()
-      );
+      runnerMock.verify((r) => r.run(It.isAny(), location), Times.once());
     });
 
     it("should pass the run result into the .then callback handler", async () => {
@@ -298,9 +298,7 @@ suite("NgCommand", () => {
         success: true
       };
 
-      runnerMock
-        .setup((r) => r.run(It.isAny(), It.isAny(), It.isAny()))
-        .returns(async () => runResult);
+      runnerMock.setup((r) => r.run(It.isAny())).returns(async () => runResult);
 
       ngBasecommand.run().then((result) => expect(result).to.eql(runResult));
     });
@@ -309,7 +307,7 @@ suite("NgCommand", () => {
       const oopsie: Error = new Error("Whoops!");
 
       runnerMock
-        .setup((r) => r.run(It.isAny(), It.isAny(), It.isAny()))
+        .setup((r) => r.run(It.isAny()))
         .returns(async () => {
           throw oopsie;
         });
