@@ -1,7 +1,7 @@
 # [ng-programmatic](https://www.npmjs.com/package/ng-programmatic)
 
-![Azure DevOps builds](https://img.shields.io/azure-devops/build/tobybessant1998/25ef4e67-35f0-45f9-a969-e4f0fadecea8/1?label=Build)
-![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/tobybessant1998/ng-programmatic/1?label=Coverage)
+![Azure DevOps builds](https://img.shields.io/azure-devops/build/tobybessant/25ef4e67-35f0-45f9-a969-e4f0fadecea8/1?label=Build)
+![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/tobybessant/ng-programmatic/1?label=Coverage)
 ![npm](https://img.shields.io/npm/v/ng-programmatic?label=NPM)
 
 Fully typed programmatic interface for configuring and running Angular CLI commands. Primarily designed for use with taskrunners
